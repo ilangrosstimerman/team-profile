@@ -7,7 +7,7 @@ function addHtml(member) {
       let data = "";
       if (role === "Engineer") {
           const github = member.getGitHub();
-          data = `<div class="row">
+          data = `
           <div class="col-sm-4">
           <div class="card" style="width: 18rem;">
 <div class="card-body">
@@ -17,9 +17,7 @@ function addHtml(member) {
   <li class="list-group-item">ID: ${id}</li>
   <li class="list-group-item">Email: ${email}</li>
   <li class="list-group-item">GitHub: ${github}</li>
-
   </ul>
-  </div>
   </div>
 </div>
 </div>`;
@@ -60,21 +58,27 @@ function addHtml(member) {
       console.log("added team member");
     resolve(data)
   });
-  
+
+
+
+
 }
+
 
 function finishHtml() {
   const html = `</div>
   </div>
   </body>
   </html>`;
+
    fs.appendFile("./src/team.html", html, function(err) {
      if (err) {
          console.log(err);
      };
      console.log("end");
    });
-   
-  
+
+
 }
+
 module.exports = addHtml;
