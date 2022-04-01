@@ -3,10 +3,12 @@ const fs = require("fs");
 const Engineer = require('./lib/Engineer');
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
+const addHtml = require('./dist/Template');
 
 
 
 const teamMembers = [];
+let members = "";
 
 
 const addMember = () => {
@@ -66,26 +68,31 @@ const addMember = () => {
                 newMember = new Manager(name, id, email, roleInfo);
             }
 
-            //  teamMembers.push(newMember);
-            // addHTML(newMember)
-            // .then(function() {
-            //     if (moreMembers === 'yes') {
-            //         addMember();
-            //     }else {
-            //         finshHtml();
-            //     }
-            // });
+        teamMembers.push(newMember);
+        console.log(teamMembers);
+           addHtml(newMember)
+           .then(function(data) {
+               console.log(data)
+
+               members += data
+               if (moreMembers === 'yes') {
+                   addMember();
+               }else {
+                  let html = startHtml(members);
+                  finishHtml(html)
+               }
+           });
         });
     });
 }
-function renderHtml(memberArray) {
-    startHtml();
-    for (const member of memberArray) {
-        addHtml(member);
-    }
-    finishHtml();
-}
-function startHtml() {
+//function renderHtml(memberArray) {
+    //startHtml();
+    //for (const member of memberArray) {
+   //     addHtml(member);
+   // }
+    //finishHtml();
+//}
+function startHtml(members) {
 const html = `
 <!DOCTYPE html>
     <html lang="en">
@@ -103,19 +110,22 @@ const html = `
     </div>
   </nav>
 <div class="container">
-<div class="row">`;
+<div class="row">
+${members}
+</div>
+</body>
+</html>
+`;
+return html
 
 
 }
 
-
-
-
 function finishHtml() {
-    const html = `</div>
-    </div>
-    </body>
-    </html>`;
+    //const html = `</div>
+    //</div>
+    //</body>
+    /</html>`;
 
      fs.appendFile("./src/team.html", html, function(err) {
        if (err) {
