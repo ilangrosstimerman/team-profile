@@ -3,14 +3,10 @@ const fs = require("fs");
 const Engineer = require('./lib/Engineer');
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
-const addHtml = require('./dist/Template');
-
-
-
+const addHtml = require('./dist/pageTemplate');
 const teamMembers = [];
 let members = "";
-
-
+// array used to setup prompts for terminal
 const addMember = () => {
      inquirer.prompt([
         {
@@ -67,31 +63,29 @@ const addMember = () => {
             } else {
                 newMember = new Manager(name, id, email, roleInfo);
             }
-
-        teamMembers.push(newMember);
-        console.log(teamMembers);
-           addHtml(newMember)
-           .then(function(data) {
-               console.log(data)
-
-               members += data
-               if (moreMembers === 'yes') {
-                   addMember();
-               }else {
-                  let html = startHtml(members);
-                  finishHtml(html)
-               }
-           });
+             teamMembers.push(newMember);
+             console.log(teamMembers);
+            addHtml(newMember)
+            .then(function(data) {
+                console.log(data)
+                members += data
+                if (moreMembers === 'yes') {
+                    addMember();
+                }else {
+                   let html = startHtml(members);
+                   finishHtml(html)
+                }
+            });
         });
     });
 }
-//function renderHtml(memberArray) {
-    //startHtml();
-    //for (const member of memberArray) {
-   //     addHtml(member);
-   // }
-    //finishHtml();
-//}
+// function renderHtml(memberArray) {
+//     startHtml();
+//     for (const member of memberArray) {
+//         addHtml(member);
+//     }
+//     finishHtml(html);
+// }
 function startHtml(members) {
 const html = `
 <!DOCTYPE html>
@@ -116,43 +110,41 @@ ${members}
 </body>
 </html>
 `;
+fs.writeFile("./src.team.html", html, function(err) {
+    if (err) {
+        console.log(err);
+    }
+});
+
 return html
 
-
 }
+function finishHtml(html) {
+    // const html = `</div>
+    // </div>
+    
+    // </body>
+    // </html>`;
 
-function finishHtml() {
-    //const html = `</div>
-    //</div>
-    //</body>
-    /</html>`;
 
-     fs.appendFile("./src/team.html", html, function(err) {
-       if (err) {
-           console.log(err);
-       };
-     });
+    fs.appendFile("./src/team.html", html, function(err) {
+        if (err) {
+            console.log(err);
+        };
+      });
      console.log("end");
 
 }
-
-
-
-
+ 
 // intializes app markup
   function initApp() {   
     startHtml();
     addMember();
 }
-
-
-
 // addMember();
 // startHtml();
  //addHtml("hello")
 // .then(function() {
 //     finishHtml();
 // });
-
-
 initApp();
