@@ -1,3 +1,5 @@
+
+
 function addHtml(member) {
   return new Promise(function(resolve, reject) {
       const name = member.getName();
@@ -17,6 +19,7 @@ function addHtml(member) {
   <li class="list-group-item">ID: ${id}</li>
   <li class="list-group-item">Email: ${email}</li>
   <li class="list-group-item">GitHub: ${github}</li>
+
   </ul>
   </div>
 </div>
@@ -61,13 +64,14 @@ function addHtml(member) {
 
 
 
-
+  
 }
 
 
 function finishHtml() {
   const html = `</div>
   </div>
+
   </body>
   </html>`;
 
@@ -77,8 +81,8 @@ function finishHtml() {
      };
      console.log("end");
    });
-
-
+   
+  
 }
 
 module.exports = addHtml;
